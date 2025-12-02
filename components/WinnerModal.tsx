@@ -69,7 +69,7 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ winner, onClose, onRemoveWinn
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.5, opacity: 0, y: 50 }}
                             transition={{ type: 'spring', damping: 15 }}
-                            className="bg-white dark:bg-gray-900 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden"
+                            className="bg-white dark:bg-gray-900 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Top color bar matching winner */}
@@ -89,26 +89,26 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ winner, onClose, onRemoveWinn
                             />
 
                             {/* Trophy with winner color */}
-                            <motion.div 
+                            <motion.div
                                 initial={{ scale: 0, rotate: -180 }}
                                 animate={{ scale: 1, rotate: 0 }}
                                 transition={{ type: 'spring', damping: 10, delay: 0.2 }}
-                                className="mx-auto w-28 h-28 rounded-full flex items-center justify-center mb-6 relative"
+                                className="mx-auto w-20 h-20 sm:w-28 sm:h-28 rounded-full flex items-center justify-center mb-4 sm:mb-6 relative"
                                 style={{ backgroundColor: `${winner.color}20` }}
                             >
-                                <div 
+                                <div
                                     className="absolute inset-2 rounded-full opacity-50"
                                     style={{ backgroundColor: `${winner.color}30` }}
                                 />
-                                <Trophy size={56} style={{ color: winner.color }} />
+                                <Trophy size={40} className="sm:w-14 sm:h-14" style={{ color: winner.color }} />
                             </motion.div>
 
                             {/* Winner label */}
-                            <motion.h2 
+                            <motion.h2
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.3 }}
-                                className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-red-600"
+                                className="text-2xl sm:text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-red-600"
                             >
                                 🎉 {t.winner} 🎉
                             </motion.h2>

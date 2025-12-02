@@ -212,7 +212,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder={t.name}
-                    className="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="flex-1 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm min-h-[44px] sm:min-h-auto"
                     onKeyDown={(e) => e.key === 'Enter' && addParticipant()}
                 />
                 <input
@@ -220,32 +220,32 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
                     value={newWeight}
                     onChange={(e) => setNewWeight(Number(e.target.value))}
                     placeholder={t.weight}
-                    className="w-16 px-2 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-center"
+                    className="w-14 sm:w-16 px-2 py-3 sm:py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-center min-h-[44px] sm:min-h-auto"
                     min="1"
                 />
                 <button
                     onClick={addParticipant}
-                    className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="p-3 sm:p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors touch-manipulation min-h-[44px] sm:min-h-auto"
                 >
-                    <Plus size={20} />
+                    <Plus size={18} className="sm:w-5 sm:h-5" />
                 </button>
             </div>
 
             {/* Search (show for large lists) */}
             {participants.length > 10 && (
                 <div className="relative mb-3">
-                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder={isRTL ? 'جستجو...' : 'Search participants...'}
-                        className="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        className="w-full pl-9 pr-10 py-3 sm:py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm min-h-[44px] sm:min-h-auto"
                     />
                     {searchQuery && (
-                        <button 
+                        <button
                             onClick={() => setSearchQuery('')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 touch-manipulation p-1"
                         >
                             <X size={14} />
                         </button>
@@ -263,25 +263,25 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
                 <div style={{ height: totalHeight, position: 'relative' }}>
                     <div style={{ transform: `translateY(${offsetY}px)` }}>
                         {visibleItems.map((p) => (
-                            <div 
-                                key={p.id} 
+                            <div
+                                key={p.id}
                                 className="flex items-center gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border-l-4 mb-1"
                                 style={{ borderLeftColor: p.color, height: ITEM_HEIGHT - 4 }}
                             >
                                 <span className="font-medium flex-1 truncate text-sm">{p.name}</span>
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-1 flex-shrink-0">
                                     <span className="text-xs text-gray-400">{isRTL ? 'و:' : 'W:'}</span>
                                     <input
                                         type="number"
                                         value={p.weight}
                                         onChange={(e) => updateWeight(p.id, Number(e.target.value))}
-                                        className="w-10 px-1 py-0.5 text-xs border rounded bg-transparent text-center"
+                                        className="w-12 sm:w-10 px-1 py-1 sm:py-0.5 text-xs border rounded bg-transparent text-center min-h-[32px] sm:min-h-auto"
                                         min="1"
                                     />
                                 </div>
                                 <button
                                     onClick={() => removeParticipant(p.id)}
-                                    className="text-red-500 hover:text-red-700 p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded flex-shrink-0"
+                                    className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded flex-shrink-0 touch-manipulation min-w-[44px] sm:min-w-auto"
                                 >
                                     <Trash2 size={16} />
                                 </button>

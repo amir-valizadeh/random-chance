@@ -48,6 +48,12 @@ const Wheel: React.FC<WheelProps> = ({ participants, onSpinEnd, isSpinning, setI
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
+        // Set canvas size based on screen size for better mobile performance
+        const isMobile = window.innerWidth < 768;
+        const canvasSize = isMobile ? 400 : 500;
+        canvas.width = canvasSize;
+        canvas.height = canvasSize;
+
         const size = canvas.width;
         const centerX = size / 2;
         const centerY = size / 2;
