@@ -119,6 +119,22 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
         XLSX.writeFile(wb, "virad-participants.xlsx");
     };
 
+    const exportToCSV = () => {
+        const csvContent = XLSX.utils.sheet_to_csv(
+            XLSX.utils.json_to_sheet(participants.map(p => ({ Name: p.name, Weight: p.weight })))
+        );
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'virad-participants.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     // Download sample CSV
     const downloadSampleCSV = () => {
         const sampleData = isRTL ? [
@@ -134,11 +150,20 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
             { Name: 'Diana Wilson', Weight: 3 },
             { Name: 'Eve Davis', Weight: 1 },
         ];
-        
-        const ws = XLSX.utils.json_to_sheet(sampleData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Sample");
-        XLSX.writeFile(wb, isRTL ? "نمونه-شرکت‌کنندگان.xlsx" : "sample-participants.xlsx");
+
+        // Convert to CSV format
+        const csvContent = XLSX.utils.sheet_to_csv(XLSX.utils.json_to_sheet(sampleData));
+
+        // Create and download CSV file
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', isRTL ? "نمونه-شرکت‌کنندگان.csv" : "sample-participants.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const clearAll = () => {
@@ -186,7 +211,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
                     <button 
                         onClick={downloadSampleCSV} 
                         className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-green-600" 
-                        title={isRTL ? 'دانلود نمونه CSV' : 'Download Sample CSV'}
+                        title={t.sampleTooltip}
                     >
                         <FileSpreadsheet size={18} />
                     </button>
@@ -194,8 +219,11 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants, setPart
                         <Upload size={18} />
                         <input type="file" accept=".csv, .xlsx, .xls" className="hidden" onChange={handleFileUpload} />
                     </label>
-                    <button onClick={exportToExcel} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors" title={t.exportTooltip}>
+                    <button onClick={exportToCSV} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-blue-600" title={t.exportCsvTooltip}>
                         <Download size={18} />
+                    </button>
+                    <button onClick={exportToExcel} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-green-600" title={t.exportTooltip}>
+                        <FileSpreadsheet size={18} />
                     </button>
                     {participants.length > 0 && (
                         <button onClick={clearAll} className="p-2 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500" title={isRTL ? 'حذف همه' : 'Clear all'}>

@@ -32,7 +32,9 @@ export const translations = {
 
         // Tooltips
         importTooltip: "Import Excel/CSV",
-        exportTooltip: "Export",
+        exportTooltip: "Export to Excel",
+        exportCsvTooltip: "Export to CSV",
+        sampleTooltip: "Download Sample CSV",
         soundTooltip: "Toggle Sound",
         themeTooltip: "Toggle Theme",
         languageTooltip: "Switch Language",
@@ -70,7 +72,9 @@ export const translations = {
 
         // Tooltips
         importTooltip: "وارد کردن اکسل/CSV",
-        exportTooltip: "خروجی گرفتن",
+        exportTooltip: "خروجی گرفتن به اکسل",
+        exportCsvTooltip: "خروجی گرفتن به CSV",
+        sampleTooltip: "دانلود نمونه CSV",
         soundTooltip: "تغییر صدا",
         themeTooltip: "تغییر تم",
         languageTooltip: "تغییر زبان",
