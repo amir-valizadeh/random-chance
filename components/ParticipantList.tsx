@@ -18,6 +18,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 interface ParticipantListProps {
   participants: Participant[];
   setParticipants: (participants: Participant[]) => void;
+  isSpinning?: boolean;
 }
 
 const COLORS = [
@@ -145,6 +146,7 @@ const ENGLISH_FIRST_NAMES = [
 const ParticipantList: React.FC<ParticipantListProps> = ({
   participants,
   setParticipants,
+  isSpinning = false,
 }) => {
   const { t, isRTL } = useLanguage();
   const [newInstagramId, setNewInstagramId] = useState("");
@@ -508,56 +510,58 @@ const ParticipantList: React.FC<ParticipantListProps> = ({
         </div>
       )}
 
-      {/* Virtualized participant list */}
-      <div
-        ref={containerRef}
-        className="overflow-y-auto custom-scrollbar rounded-lg"
-        style={{
-          height: Math.min(VISIBLE_ITEMS * ITEM_HEIGHT, totalHeight + 20),
-          maxHeight: 400,
-        }}
-        onScroll={handleScroll}>
-        <div style={{ height: totalHeight, position: "relative" }}>
-          <div style={{ transform: `translateY(${offsetY}px)` }}>
-            {visibleItems.map((p) => (
-              <div
-                key={p.id}
-                className="flex flex-col gap-1 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border-l-4 mb-1"
-                style={{
-                  borderLeftColor: p.color,
-                  minHeight: ITEM_HEIGHT - 4,
-                }}>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium flex-1 truncate text-sm">
-                    {p.fullName}
-                  </span>
-                  <button
-                    onClick={() => removeParticipant(p.id)}
-                    className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded flex-shrink-0 touch-manipulation min-w-[44px] sm:min-w-auto">
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <span className="truncate">{p.instagramId}</span>
-                  {p.phoneNumber && (
+      {/* Virtualized participant list - hidden during spinning */}
+      {!isSpinning && (
+        <div
+          ref={containerRef}
+          className="overflow-y-auto custom-scrollbar rounded-lg"
+          style={{
+            height: Math.min(VISIBLE_ITEMS * ITEM_HEIGHT, totalHeight + 20),
+            maxHeight: 400,
+          }}
+          onScroll={handleScroll}>
+          <div style={{ height: totalHeight, position: "relative" }}>
+            <div style={{ transform: `translateY(${offsetY}px)` }}>
+              {visibleItems.map((p) => (
+                <div
+                  key={p.id}
+                  className="flex flex-col gap-1 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border-l-4 mb-1"
+                  style={{
+                    borderLeftColor: p.color,
+                    minHeight: ITEM_HEIGHT - 4,
+                  }}>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium flex-1 truncate text-sm">
+                      {p.fullName}
+                    </span>
                     <button
-                      onClick={() => togglePhoneReveal(p.id)}
-                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 flex-shrink-0 px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                      {revealedPhones.has(p.id) ? (
-                        <span>{p.phoneNumber}</span>
-                      ) : (
-                        <span>
-                          {isRTL ? "📞 نمایش شماره" : "📞 Show Phone"}
-                        </span>
-                      )}
+                      onClick={() => removeParticipant(p.id)}
+                      className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded flex-shrink-0 touch-manipulation min-w-[44px] sm:min-w-auto">
+                      <Trash2 size={16} />
                     </button>
-                  )}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span className="truncate">{p.instagramId}</span>
+                    {p.phoneNumber && (
+                      <button
+                        onClick={() => togglePhoneReveal(p.id)}
+                        className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 flex-shrink-0 px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                        {revealedPhones.has(p.id) ? (
+                          <span>{p.phoneNumber}</span>
+                        ) : (
+                          <span>
+                            {isRTL ? "📞 نمایش شماره" : "📞 Show Phone"}
+                          </span>
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Empty state with generator options */}
       {participants.length === 0 && (

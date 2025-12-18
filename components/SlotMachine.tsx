@@ -176,16 +176,29 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
                     className="w-5 h-5 rounded-full flex-shrink-0 shadow-lg ring-2 ring-white/30"
                     style={{ backgroundColor: p.color }}
                   />
-                  <span
-                    className="text-white font-bold text-xl truncate flex-1"
-                    style={{
-                      fontFamily: isRTL
-                        ? "'Vazirmatn', system-ui, sans-serif"
-                        : "system-ui, sans-serif",
-                      textAlign: isRTL ? "right" : "left",
-                    }}>
-                    {p.fullName}
-                  </span>
+                  {p.phoneNumber ? (
+                    <span
+                      className="text-white font-bold text-xl truncate flex-1"
+                      style={{
+                        fontFamily: isRTL
+                          ? "'Vazirmatn', system-ui, sans-serif"
+                          : "system-ui, sans-serif",
+                        textAlign: isRTL ? "right" : "left",
+                      }}>
+                      {p.phoneNumber}
+                    </span>
+                  ) : (
+                    <span
+                      className="text-white/50 font-bold text-xl truncate flex-1"
+                      style={{
+                        fontFamily: isRTL
+                          ? "'Vazirmatn', system-ui, sans-serif"
+                          : "system-ui, sans-serif",
+                        textAlign: isRTL ? "right" : "left",
+                      }}>
+                      {isRTL ? "بدون شماره" : "No Phone"}
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
@@ -202,9 +215,6 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
         </div>
 
         {/* Participant count */}
-        <div className="mt-3 text-center text-gray-400 text-sm">
-          {participants.length} {isRTL ? "شرکت‌کننده" : "entries"}
-        </div>
       </div>
 
       {/* Ambient glow */}

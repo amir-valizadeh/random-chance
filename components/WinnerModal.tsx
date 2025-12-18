@@ -24,12 +24,14 @@ const WinnerModal: React.FC<WinnerModalProps> = ({
   const { t, isRTL } = useLanguage();
   const [showConfetti, setShowConfetti] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
   useEffect(() => {
     if (winner) {
       setShowConfetti(true);
       playWinSound();
       setCopied(false);
+      setCopiedPhone(false);
     } else {
       setShowConfetti(false);
     }
@@ -40,6 +42,14 @@ const WinnerModal: React.FC<WinnerModalProps> = ({
       navigator.clipboard.writeText(winner.fullName);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const copyPhoneNumber = () => {
+    if (winner && winner.phoneNumber) {
+      navigator.clipboard.writeText(winner.phoneNumber);
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
     }
   };
 
@@ -137,6 +147,32 @@ const WinnerModal: React.FC<WinnerModalProps> = ({
                     {winner.fullName}
                   </span>
                 </div>
+
+                {/* Phone number */}
+                {winner.phoneNumber && (
+                  <div className="mb-3">
+                    <div className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                      {isRTL ? "شماره تلفن" : "Phone Number"}
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        {winner.phoneNumber}
+                      </div>
+                      <button
+                        onClick={copyPhoneNumber}
+                        className="p-1 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors">
+                        {copiedPhone ? (
+                          <Check size={16} className="text-green-500" />
+                        ) : (
+                          <Copy
+                            size={16}
+                            className="text-blue-600 dark:text-blue-400"
+                          />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* Copy button */}
                 <button

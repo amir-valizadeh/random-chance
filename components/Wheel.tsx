@@ -85,57 +85,9 @@ const Wheel: React.FC<WheelProps> = ({
       ctx.stroke();
     });
 
-    // Draw names only for limited number of participants
-    const showNames = participants.length <= MAX_VISIBLE_NAMES;
-
-    if (showNames) {
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      segments.forEach((seg) => {
-        const angleSize = seg.endAngle - seg.startAngle;
-        const midAngleRad = (seg.midAngle - 90) * (Math.PI / 180);
-
-        // Calculate text position - 65% from center
-        const textRadius = radius * 0.65;
-        const textX = centerX + Math.cos(midAngleRad) * textRadius;
-        const textY = centerY + Math.sin(midAngleRad) * textRadius;
-
-        ctx.save();
-        ctx.translate(textX, textY);
-
-        // Rotate text to be readable along the segment
-        let textRotation = seg.midAngle;
-        // Flip text if it would be upside down
-        if (seg.midAngle > 90 && seg.midAngle < 270) {
-          textRotation += 180;
-        }
-        ctx.rotate(textRotation * (Math.PI / 180));
-
-        // Dynamic font size based on segment size and name length
-        const maxFontSize = Math.min(18, angleSize * 1.5);
-        const nameLength = seg.participant.fullName.length;
-        const fontSize = Math.max(8, Math.min(maxFontSize, 120 / nameLength));
-
-        ctx.font = `bold ${fontSize}px system-ui, -apple-system, sans-serif`;
-        ctx.fillStyle = "white";
-        ctx.shadowColor = "rgba(0,0,0,0.5)";
-        ctx.shadowBlur = 3;
-        ctx.shadowOffsetX = 1;
-        ctx.shadowOffsetY = 1;
-
-        // Truncate long names
-        let displayName = seg.participant.fullName;
-        const maxChars = Math.floor(angleSize / 3);
-        if (displayName.length > maxChars && maxChars > 3) {
-          displayName = displayName.slice(0, maxChars - 2) + "..";
-        }
-
-        ctx.fillText(displayName, 0, 0);
-        ctx.restore();
-      });
-    }
-  }, [segments, participants.length]);
+    // Don't draw names during spinning - only show colored segments
+    // Names will be shown in the WinnerModal after spinning stops
+  }, [segments, participants.length, isSpinning]);
 
   const spinWheel = useCallback(async () => {
     if (participants.length === 0) return;
@@ -203,11 +155,7 @@ const Wheel: React.FC<WheelProps> = ({
       </div>
 
       {/* Participant count indicator for large lists */}
-      {participants.length > MAX_VISIBLE_NAMES && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
-          {participants.length} entries
-        </div>
-      )}
+     
     </div>
   );
 };
