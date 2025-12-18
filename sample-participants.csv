@@ -1,6 +1,6 @@
-Name,Weight
-Alice Smith,1
-Bob Johnson,2
-Charlie Brown,1
-Diana Wilson,3
-Eve Davis,1
+instagramId,full name,phone number
+@alice_smith,Alice Smith,09123456789
+@bob_johnson,Bob Johnson,09123456790
+@charlie_brown,Charlie Brown,09123456791
+@diana_wilson,Diana Wilson,09123456792
+@eve_davis,Eve Davis,09123456793
